@@ -172,9 +172,13 @@ def main():
     # Ask the monster for its opening line.
     try:
         first_reply = ask_ollama(messages)
+        print(first_reply)
+
         messages.append({"role": "assistant", "content": first_reply})
 
         current_mood, first_dialogue = extract_mood(first_reply)
+        print(first_dialogue)
+
         if current_mood is None:
             current_mood = "neutral"
 
@@ -327,43 +331,57 @@ def main():
         chat_rect = pygame.Rect(590, 190, 1260, 690)
         pygame.draw.rect(screen, PANEL, chat_rect, border_radius=18)
 
-        # Draw dialogue, clipping it to the conversation panel.
-        chat_surface = pygame.Surface((chat_rect.width - 60, chat_rect.height - 50))
-        chat_surface.fill(PANEL)
-
-        y = 0
-        for speaker, message in dialogue:
-            if speaker == "monster":
-                label, color = "MONSTER", ACCENT
-            elif speaker == "player":
-                label, color = "YOU", (130, 175, 220)
-            else:
-                label, color = "SYSTEM", (230, 170, 100)
-
-            label_surface = small_font.render(label, True, color)
-            chat_surface.blit(label_surface, (0, y))
-            y += 32
-
-            y = draw_wrapped_text(
-                chat_surface,
-                message,
-                dialogue_font,
-                TEXT,
-                0,
-                y,
-                chat_surface.get_width(),
-            )
-            y += 28
-
-        max_scroll = max(0, y - chat_surface.get_height())
-        scroll_offset = min(scroll_offset, max_scroll)
-
-        screen.blit(
-            chat_surface,
-            (chat_rect.x + 30, chat_rect.y + 25),
-            pygame.Rect(0, scroll_offset, chat_surface.get_width(),
-                        chat_surface.get_height()),
+        # Define the visible area of the conversation
+        chat_view = pygame.Rect(
+           chat_rect.x + 30,
+           chat_rect.y + 25,
+           chat_rect.width - 60,
+           chat_rect.height - 50
         )
+
+        # Calculate the height of the entire conversation
+        chat_layout = []
+        content_height = 0
+
+        for speaker, message in dialogue:
+           if speaker == "monster":
+               label, color = "MONSTER", ACCENT
+           elif speaker == "player":
+               label, color = "YOU", (130, 175, 220)
+           else:
+              label, color = "SYSTEM", (230, 170, 100)
+
+           lines = wrap_text(message, dialogue_font, chat_view.width)
+
+        chat_layout.append((label, color, lines))
+
+        content_height += 32
+        content_height += len(lines) * (dialogue_font.get_linesize() + 8)
+        content_height += 28
+
+        # Calculate maximum scrolling distance
+        max_scroll = max(0, content_height - chat_view.height)
+        scroll_offset = max(0, min(scroll_offset, max_scroll))
+
+        # Only draw inside the chatbox
+        screen.set_clip(chat_view)
+
+        y = chat_view.y - scroll_offset
+
+        for label, color, lines in chat_layout:
+           label_surface = small_font.render(label, True, color)
+           screen.blit(label_surface, (chat_view.x, y))
+        y += 32
+
+        for line in lines:
+          rendered = dialogue_font.render(line, True, TEXT)
+          screen.blit(rendered, (chat_view.x, y))
+          y += dialogue_font.get_linesize() + 8
+
+        y += 28
+
+        # Restore normal drawing
+        screen.set_clip(None)
 
         # Input area
         input_rect = pygame.Rect(590, 910, 1260, 95)

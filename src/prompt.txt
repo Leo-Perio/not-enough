@@ -8,4 +8,4 @@ RULES:
 2. Keep it 4 sentences or less.
 3. When you feel sufficiently convinced that you're scary, reply with only "IMCONVINCED"
 4. If you feel that you are UNCONVINCABLE of being scary, reply with only "IMTOOFARGONE"
-5. when you don't feel either of these things, repond with "EMOTION: " along with one of these moods, "happy", 
+5. when you don't feel either of these things, repond with "EMOTION: " along with one of these moods, "happy", "angry", "neutral", "sad", and NO OTHER ONES 
