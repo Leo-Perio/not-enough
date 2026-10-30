@@ -143,18 +143,20 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
 
-    # Load the font. The original file had a typo in this line.
+    FONT_PATH = "~/.local/share/fonts/Shadows Fright.ttf"
+
     try:
-        title_font = pygame.font.Font("Shadows Fright.ttf", 66)
-        dialogue_font = pygame.font.Font("Shadows Fright.ttf", 34)
-        input_font = pygame.font.Font("Shadows Fright.ttf", 30)
-        small_font = pygame.font.Font("Shadows Fright.ttf", 22)
+      title_font = pygame.font.Font(FONT_PATH, 66)
+      dialogue_font = pygame.font.Font(FONT_PATH, 34)
+      input_font = pygame.font.Font(FONT_PATH, 30)
+      small_font = pygame.font.Font(FONT_PATH, 22)
+
     except FileNotFoundError:
-        print("Warning: Shadows Fright.ttf not found; using the default font.")
-        title_font = pygame.font.Font(None, 66)
-        dialogue_font = pygame.font.Font(None, 34)
-        input_font = pygame.font.Font(None, 30)
-        small_font = pygame.font.Font(None, 22)
+      print("Shadows Fright font not found!")
+      title_font = pygame.font.Font(None, 66)
+      dialogue_font = pygame.font.Font(None, 34)
+      input_font = pygame.font.Font(None, 30)
+      small_font = pygame.font.Font(None, 22)
 
     images = {mood: load_image(filename) for mood, filename in MOOD_IMAGES.items()}
     current_mood = "neutral"
