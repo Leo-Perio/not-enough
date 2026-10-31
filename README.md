@@ -6,7 +6,7 @@ Depencies:
 - Python (tested on version 3.14.4)
 - Pygame (tested on version 2.6.1)
 - Ollama (tested on model Gemma3:4b)
-- run "Python3 main.py" inside the src/ directory
+run "Python3 main.py" inside the src/ directory
 
 ## How to change the game
 - If you want to change the initial prompt for the monster itself, the prompt used is in src/prompt.txt.
