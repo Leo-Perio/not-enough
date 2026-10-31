@@ -2,11 +2,11 @@
 Not Enough is a game about trying to convince a monster that it is scary. You win by successfully convincing the monster that it is such.
 
 ## How to run the game
-Depencies:
--Python (tested on version 3.14.4)
--Pygame (tested on version 2.6.1)
--Ollama (tested on model Gemma3:4b)
--run "Python3 main.py" inside the src/ directory
+- Depencies:
+- Python (tested on version 3.14.4)
+- Pygame (tested on version 2.6.1)
+- Ollama (tested on model Gemma3:4b)
+- run "Python3 main.py" inside the src/ directory
 
 ## How to change the game
 - If you want to change the initial prompt for the monster itself, the prompt used is in src/prompt.txt.
